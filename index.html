@@ -9,79 +9,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
     <style>
-        /* --- 1. Pengaturan Dasar & Variabel Global --- */
         :root {
-            /* Tema Gelap (Default) */
-            --bg-color: hsl(220, 26%, 10%);
-            --card-color: hsl(220, 26%, 14%);
-            --input-color: hsl(220, 26%, 18%);
-            --border-color: hsl(220, 26%, 25%);
-            --text-primary: hsl(0, 0%, 95%);
-            --text-secondary: hsl(0, 0%, 65%);
-            --shadow-color: rgba(0, 0, 0, 0.4);
-            --glow-color: rgba(59, 130, 246, 0.25);
-            /* Warna Aksen */
-            --accent-primary: hsl(217, 91%, 60%);
-            --accent-secondary: hsl(217, 91%, 50%);
-            --success-color: hsl(145, 63%, 49%);
-            /* Properti Umum */
-            --border-radius-lg: 1.5rem;
-            --border-radius-md: 0.75rem;
-            --transition-speed: 0.3s;
+            --bg-color: hsl(220, 26%, 10%); --card-color: hsl(220, 26%, 14%); --input-color: hsl(220, 26%, 18%); --border-color: hsl(220, 26%, 25%); --text-primary: hsl(0, 0%, 95%); --text-secondary: hsl(0, 0%, 65%); --shadow-color: rgba(0, 0, 0, 0.4); --glow-color: rgba(59, 130, 246, 0.25); --accent-primary: hsl(217, 91%, 60%); --accent-secondary: hsl(217, 91%, 50%); --success-color: hsl(145, 63%, 49%); --border-radius-lg: 1.5rem; --border-radius-md: 0.75rem; --transition-speed: 0.3s;
         }
-
         body.light-mode {
-            /* Tema Terang */
-            --bg-color: hsl(210, 20%, 98%);
-            --card-color: hsl(0, 0%, 100%);
-            --input-color: hsl(210, 20%, 96%);
-            --border-color: hsl(210, 16%, 93%);
-            --text-primary: hsl(220, 15%, 20%);
-            --text-secondary: hsl(220, 10%, 40%);
-            --shadow-color: rgba(100, 100, 100, 0.15);
-            --glow-color: rgba(59, 130, 246, 0.15);
+            --bg-color: hsl(210, 20%, 98%); --card-color: hsl(0, 0%, 100%); --input-color: hsl(210, 20%, 96%); --border-color: hsl(210, 16%, 93%); --text-primary: hsl(220, 15%, 20%); --text-secondary: hsl(220, 10%, 40%); --shadow-color: rgba(100, 100, 100, 0.15); --glow-color: rgba(59, 130, 246, 0.15);
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: grid;
-            place-content: center;
-            padding: 2rem;
-            overflow-x: hidden;
-            transition: background-color var(--transition-speed) ease-out, color var(--transition-speed) ease-out;
-        }
-
-        /* --- 2. Animasi & Efek --- */
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-color); color: var(--text-primary); min-height: 100vh; display: grid; place-content: center; padding: 2rem; overflow-x: hidden; transition: background-color var(--transition-speed) ease-out, color var(--transition-speed) ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-
-        /* --- 3. Payment Card & Konten --- */
-        .payment-card {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            background: var(--card-color);
-            border-radius: var(--border-radius-lg);
-            padding: 2.5rem;
-            box-shadow: 0 15px 40px var(--shadow-color);
-            transition: all var(--transition-speed) ease-out;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            animation: fadeIn 0.8s ease-out backwards;
-        }
+        .payment-card { position: relative; width: 100%; max-width: 400px; background: var(--card-color); border-radius: var(--border-radius-lg); padding: 2.5rem; box-shadow: 0 15px 40px var(--shadow-color); transition: all var(--transition-speed) ease-out; overflow: hidden; border: 1px solid var(--border-color); animation: fadeIn 0.8s ease-out backwards; }
         .card-content { position: relative; z-index: 1; text-align: center; }
         .card-content > * { animation: fadeIn 0.6s ease-out 0.4s backwards; }
-        .card-content > *:nth-child(2) { animation-delay: 0.5s; }
-        .card-content > *:nth-child(3) { animation-delay: 0.6s; }
-        .card-content > *:nth-child(4) { animation-delay: 0.7s; }
-        .card-content > *:nth-child(5) { animation-delay: 0.8s; }
-        .card-content > *:nth-child(6) { animation-delay: 0.9s; }
-
+        .card-content > *:nth-child(2) { animation-delay: 0.5s; } .card-content > *:nth-child(3) { animation-delay: 0.6s; } .card-content > *:nth-child(4) { animation-delay: 0.7s; } .card-content > *:nth-child(5) { animation-delay: 0.8s; } .card-content > *:nth-child(6) { animation-delay: 0.9s; }
         .payment-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px var(--shadow-color); }
         .merchant-logo { width: 70px; height: 70px; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); border-radius: 50%; margin: 0 auto 1.5rem; display: flex; justify-content: center; align-items: center; font-size: 2.2em; font-weight: 700; color: white; box-shadow: 0 0 25px var(--glow-color); }
         #merchantName { font-size: 2rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-primary); }
@@ -91,73 +32,76 @@
         .input-wrapper span { font-size: 1.5rem; font-weight: 600; color: var(--text-secondary); padding-right: 0.75rem; }
         #nominalInput { width: 100%; flex-grow: 1; padding: 1.25rem 0; font-size: 1.5rem; font-weight: 600; color: var(--text-primary); background-color: transparent; border: none; outline: none; -moz-appearance: textfield; }
         #nominalInput::-webkit-outer-spin-button, #nominalInput::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        
-        /* --- UPDATE 1: Posisi Quick Amounts lebih rapi --- */
-        .quick-amounts {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 2.5rem;
-        }
-        .quick-amounts button {
-            padding: 0.8rem 0.5rem;
-            font-size: 0.9em;
-            font-weight: 600;
-            background-color: var(--input-color);
-            color: var(--text-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius-md);
-            cursor: pointer;
-            transition: all var(--transition-speed) ease-out;
-        }
+        .quick-amounts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 2.5rem; }
+        .quick-amounts button { padding: 0.8rem 0.5rem; font-size: 0.9em; font-weight: 600; background-color: var(--input-color); color: var(--text-secondary); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); cursor: pointer; transition: all var(--transition-speed) ease-out; }
         .quick-amounts button:hover { background-color: var(--accent-primary); color: white; border-color: var(--accent-primary); transform: translateY(-3px); box-shadow: 0 5px 15px var(--glow-color); }
-        
         #bayarBtn { width: 100%; padding: 1.2rem; font-size: 1.2em; font-weight: 700; color: white; background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary)); border: none; border-radius: var(--border-radius-md); cursor: pointer; transition: all var(--transition-speed) ease-out; box-shadow: 0 8px 25px var(--glow-color); }
         #bayarBtn:disabled { background: var(--input-color); color: var(--text-secondary); cursor: not-allowed; box-shadow: none; transform: none; }
         #bayarBtn:not(:disabled):hover { transform: translateY(-7px) scale(1.02); box-shadow: 0 15px 35px var(--glow-color); }
-
-        /* --- 4. Toggle Dark/Light Mode --- */
-        .theme-switch { position: absolute; top: 1.5rem; right: 1.5rem; display: inline-block; width: 50px; height: 26px; }
+        .theme-switch { position: absolute; top: 1.5rem; right: 1.5rem; display: inline-block; width: 50px; height: 26px; z-index: 2; }
         .theme-switch input { opacity: 0; width: 0; height: 0; }
         .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--input-color); border: 1px solid var(--border-color); border-radius: 34px; transition: var(--transition-speed); }
         .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: var(--text-secondary); border-radius: 50%; transition: var(--transition-speed); }
         input:checked + .slider { background-color: var(--accent-primary); }
         input:checked + .slider:before { transform: translateX(24px); background-color: white; }
-
-        /* --- 5. Modal Styling & Timer --- */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.4s ease-out, visibility 0.4s ease-out; }
-        .modal-overlay.show { opacity: 1; visibility: visible; }
-        .modal-content { background: var(--card-color); padding: 2.5rem; border-radius: var(--border-radius-lg); text-align: center; border: 1px solid var(--border-color); box-shadow: 0 10px 30px var(--shadow-color); transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; animation: popIn 0.5s 0.1s ease-out backwards; }
-        .modal-overlay.show .modal-content { transform: scale(1); }
-        .modal-content p { color: var(--text-secondary); }
-        #paymentAmount { font-size: 2.5em; font-weight: 700; color: var(--text-primary); margin: 0.25rem 0 1.5rem 0; }
-        .close-btn { position: absolute; top: 1rem; right: 1rem; font-size: 1.8em; color: var(--text-secondary); cursor: pointer; background: none; border: none; transition: color 0.2s, transform 0.2s; }
-        .close-btn:hover { color: var(--accent-primary); transform: rotate(90deg); }
         
+        /* --- 5. Modal Styling & Timer --- */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; opacity: 0; visibility: hidden; transition: opacity 0.4s ease-out, visibility 0.4s ease-out; padding: 1rem; }
+        .modal-overlay.show { opacity: 1; visibility: visible; }
+        .modal-content { 
+            background: var(--card-color); 
+            padding: 2.5rem; border-radius: var(--border-radius-lg); text-align: center; 
+            border: 1px solid var(--border-color); box-shadow: 0 10px 30px var(--shadow-color); 
+            transform: scale(0.9); transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            position: relative; animation: popIn 0.5s 0.1s ease-out backwards;
+            width: 100%;
+            max-width: 420px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-overlay.show .modal-content { transform: scale(1); }
+        
+        /* UPDATE 1: Pengaturan ulang margin untuk posisi timer yang tetap */
+        .modal-content .modal-title { color: var(--text-secondary); margin-bottom: 0.25rem; }
+        #paymentAmount { font-size: 2.5em; font-weight: 700; color: var(--text-primary); margin: 0 0 0.5rem 0; }
+        .timer-container { font-size: 0.9em; color: var(--text-secondary); margin-bottom: 1.5rem; }
+        #timer { font-weight: 600; color: var(--accent-primary); }
+        
+        .close-btn { position: absolute; top: 1rem; right: 1rem; font-size: 1.8em; color: var(--text-secondary); cursor: pointer; background: none; border: none; transition: color 0.2s, transform 0.2s; z-index: 10; }
+        .close-btn:hover { color: var(--accent-primary); transform: rotate(90deg); }
         .qr-wrapper { position: relative; margin-bottom: 1.5rem; }
-        #qrcode { background-color: white; padding: 15px; border-radius: var(--border-radius-md); display: inline-block; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); transition: filter 0.5s ease; }
+        #qrcode { display: inline-block; transition: filter 0.5s ease; }
         #expired-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255, 255, 255, 0.9); border-radius: var(--border-radius-md); color: #c0392b; display: flex; flex-direction: column; justify-content: center; align-items: center; opacity: 0; visibility: hidden; transition: opacity 0.5s, visibility 0.5s; }
         #expired-overlay.visible { opacity: 1; visibility: visible; }
         #expired-overlay p { font-size: 1.5em; font-weight: 700; color: #c0392b; }
-        #expired-overlay span { font-size: 0.9em; }
+        .scan-instructions { text-align: left; margin-top: 1rem; margin-bottom: 1.5rem; font-size: 0.9em; color: var(--text-secondary); }
+        .scan-instructions ol { padding-left: 1.25rem; } .scan-instructions li { margin-bottom: 0.5rem; }
         
-        .timer-container { font-size: 0.9em; color: var(--text-secondary); margin-bottom: 0.5rem; }
-        #timer { font-weight: 600; color: var(--accent-primary); }
-
-        /* --- UPDATE 3: Styling untuk instruksi scan --- */
-        .scan-instructions {
-            text-align: left;
-            margin-top: 1.5rem;
-            font-size: 0.9em;
+        /* UPDATE 2: Styling untuk tombol download */
+        #downloadBtn {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1em;
+            font-weight: 600;
+            color: var(--accent-primary);
+            background-color: transparent;
+            border: 1px solid var(--accent-primary);
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            transition: all var(--transition-speed) ease-out;
+        }
+        #downloadBtn:hover {
+            background-color: var(--accent-primary);
+            color: white;
+            box-shadow: 0 5px 15px var(--glow-color);
+        }
+        #downloadBtn:disabled {
             color: var(--text-secondary);
+            border-color: var(--border-color);
+            background-color: transparent;
+            cursor: not-allowed;
+            box-shadow: none;
         }
-        .scan-instructions ol {
-            padding-left: 1.25rem;
-        }
-        .scan-instructions li {
-            margin-bottom: 0.5rem;
-        }
-
     </style>
 </head>
 <body>
@@ -188,11 +132,11 @@
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
             <button class="close-btn" id="closeBtn">&times;</button>
-            <p>Total Pembayaran</p>
+            <p class="modal-title">Total Pembayaran</p>
+            <h2 id="paymentAmount"></h2>
             <div class="timer-container">
                 QRIS akan kedaluwarsa dalam <span id="timer">10:00</span>
             </div>
-            <h2 id="paymentAmount"></h2>
             <div class="qr-wrapper">
                 <div id="qrcode"></div>
                 <div id="expired-overlay">
@@ -208,6 +152,7 @@
                     <li>Arahkan kamera Anda ke kode QR di atas.</li>
                 </ol>
             </div>
+            <button id="downloadBtn" disabled>Download QRIS</button>
         </div>
     </div>
     
@@ -217,6 +162,7 @@
         const PAYLOAD_PART_2 = "5802ID5911Pansa Store6010BOJONEGORO61056211162070703A01";
         const MERCHANT_NAME = "Pansa Store";
         let countdownInterval;
+        let qrCodeInstance; // UPDATE 2: Variabel untuk menyimpan instance QR code
 
         // --- Referensi Elemen HTML ---
         const nominalInput = document.getElementById('nominalInput');
@@ -231,50 +177,44 @@
         const themeToggle = document.getElementById('theme-toggle');
         const timerEl = document.getElementById('timer');
         const expiredOverlay = document.getElementById('expired-overlay');
+        const downloadBtn = document.getElementById('downloadBtn'); // UPDATE 2
 
         // --- Fungsi Helper ---
         const formatRupiah = (angka) => new Intl.NumberFormat('id-ID').format(angka);
         const unformatRupiah = (rupiahStr) => parseInt(String(rupiahStr).replace(/\./g, ''), 10) || 0;
-        const crc16_ccitt = (data) => {
-            let crc = 0xFFFF;
-            for (let i = 0; i < data.length; i++) {
-                crc ^= data.charCodeAt(i) << 8;
-                for (let j = 0; j < 8; j++) { crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : crc << 1; }
-            }
-            return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
-        };
+        const crc16_ccitt = (data) => { let crc = 0xFFFF; for (let i = 0; i < data.length; i++) { crc ^= data.charCodeAt(i) << 8; for (let j = 0; j < 8; j++) { crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : crc << 1; } } return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0'); };
 
         // --- Logika Utama: Generate QRIS & Timer ---
         function generateDynamicQRIS() {
             const nominal = unformatRupiah(nominalInput.value);
             if (nominal <= 0) { alert("Silakan masukkan nominal yang valid."); return; }
-            
             clearInterval(countdownInterval);
-
             qrcodeContainer.innerHTML = "";
             qrcodeContainer.style.filter = 'none';
             expiredOverlay.classList.remove('visible');
             timerEl.textContent = '10:00';
             timerEl.style.color = 'var(--accent-primary)';
-
+            downloadBtn.disabled = true; // UPDATE 2
             const amountLength = String(nominal).length.toString().padStart(2, '0');
             const amountTag = `54${amountLength}${nominal}`;
             const payloadForCrc = PAYLOAD_PART_1 + amountTag + PAYLOAD_PART_2 + "6304";
             const crcValue = crc16_ccitt(payloadForCrc);
             const finalPayload = payloadForCrc + crcValue;
-
-            const qrCode = new QRCodeStyling({
+            
+            // UPDATE 2: Simpan instance QR code ke variabel global
+            qrCodeInstance = new QRCodeStyling({
                 width: 256, height: 256, data: finalPayload,
                 dotsOptions: { color: "#000", type: "rounded" },
                 cornersSquareOptions: { type: "extra-rounded" },
                 backgroundOptions: { color: "#ffffff" }
             });
             
-            qrCode.append(qrcodeContainer);
+            qrCodeInstance.append(qrcodeContainer);
             paymentAmountEl.textContent = `Rp ${formatRupiah(nominal)}`;
             modalOverlay.classList.add('show');
             
             startTimer(10 * 60);
+            downloadBtn.disabled = false; // UPDATE 2: Aktifkan tombol download
         }
 
         function startTimer(durationInSeconds) {
@@ -287,6 +227,7 @@
                     timerEl.style.color = '#c0392b';
                     qrcodeContainer.style.filter = 'blur(5px)';
                     expiredOverlay.classList.add('visible');
+                    downloadBtn.disabled = true; // UPDATE 2: Nonaktifkan tombol saat expired
                     return;
                 }
                 const minutes = Math.floor(remaining / 60);
@@ -310,26 +251,25 @@
         bayarBtn.addEventListener('click', generateDynamicQRIS);
         quickAmountButtons.forEach(button => button.addEventListener('click', () => setNominal(button.dataset.amount)));
         nominalInput.addEventListener('input', handleInputChange);
-        closeBtn.addEventListener('click', () => {
-            modalOverlay.classList.remove('show');
-            clearInterval(countdownInterval);
-        });
-        modalOverlay.addEventListener('click', (event) => {
-            if (event.target === modalOverlay) {
-                modalOverlay.classList.remove('show');
-                clearInterval(countdownInterval);
+        
+        // UPDATE 2: Listener untuk tombol download
+        downloadBtn.addEventListener('click', () => {
+            if (qrCodeInstance) {
+                qrCodeInstance.download({ name: "QRIS_Pembayaran", extension: "png" });
             }
         });
 
+        function closeModal() {
+            modalOverlay.classList.remove('show');
+            clearInterval(countdownInterval);
+        }
+        closeBtn.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', (event) => { if (event.target === modalOverlay) closeModal(); });
+
         // --- Logika Toggle Tema ---
         function applyTheme(theme) {
-            if (theme === 'light') {
-                document.body.classList.add('light-mode');
-                themeToggle.checked = true;
-            } else {
-                document.body.classList.remove('light-mode');
-                themeToggle.checked = false;
-            }
+            if (theme === 'light') { document.body.classList.add('light-mode'); themeToggle.checked = true; } 
+            else { document.body.classList.remove('light-mode'); themeToggle.checked = false; }
         }
         themeToggle.addEventListener('change', () => {
             const selectedTheme = themeToggle.checked ? 'light' : 'dark';
@@ -343,16 +283,14 @@
             merchantInitialEl.textContent = MERCHANT_NAME.charAt(0);
             const savedTheme = localStorage.getItem('theme') || 'dark';
             applyTheme(savedTheme);
-});
-
-        // Efek glow mouse
-        const card = document.getElementById('interactive-card');
-        card.addEventListener('mousemove', e => {
-          const rect = card.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          card.style.setProperty('--mouse-x', `${x}px`);
-          card.style.setProperty('--mouse-y', `${y}px`);
+        });
+        
+        // Script untuk "proteksi" inspect element (tidak disarankan)
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('keydown', event => {
+            if (event.key === 'F12' || (event.ctrlKey && event.shiftKey && ['I', 'J', 'C'].includes(event.key.toUpperCase())) || (event.metaKey && event.altKey && ['I', 'J', 'C'].includes(event.key.toUpperCase()))) {
+                event.preventDefault();
+            }
         });
     </script>
 </body>
