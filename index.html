@@ -4,28 +4,235 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pembayaran QRIS - Pansa Store</title>
-    <link rel="stylesheet" href="public/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #007BFF;
+            --secondary-color: #F0F8FF;
+            --background-color: #F4F7FC;
+            --text-color: #333;
+            --light-gray: #E9ECEF;
+            --dark-gray: #6C757D;
+            --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        /* General Styling */
+        body {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: var(--background-color);
+        }
+
+        /* Payment Card */
+        .payment-card {
+            width: 90%;
+            max-width: 380px;
+            padding: 35px 30px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .merchant-logo {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light-gray);
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        #merchantName {
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--text-color);
+            margin: 0 0 10px 0;
+        }
+
+        .payment-card p {
+            color: var(--dark-gray);
+            margin-bottom: 25px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .input-wrapper span {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.8em;
+            font-weight: 600;
+            color: var(--dark-gray);
+        }
+        #nominalInput {
+            width: 100%;
+            padding: 20px 20px 20px 65px;
+            font-size: 1.8em;
+            font-weight: 600;
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
+            box-sizing: border-box;
+            text-align: left;
+            transition: border-color 0.3s;
+            -moz-appearance: textfield; /* Firefox */
+        }
+        #nominalInput::-webkit-outer-spin-button,
+        #nominalInput::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        #nominalInput:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .quick-amounts {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .quick-amounts button {
+            flex-grow: 1;
+            padding: 10px;
+            font-size: 0.9em;
+            font-weight: 600;
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border: 1px solid var(--secondary-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .quick-amounts button:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #bayarBtn {
+            width: 100%;
+            padding: 16px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(45deg, #007BFF, #0056b3);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+        }
+        #bayarBtn:disabled {
+            background: var(--light-gray);
+            color: var(--dark-gray);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        #bayarBtn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Modal Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: scale(0.95);
+            transition: transform 0.3s;
+        }
+        .modal-overlay.show .modal-content {
+            transform: scale(1);
+        }
+        .modal-content p {
+            margin: 0;
+            color: var(--dark-gray);
+            font-size: 1em;
+        }
+        #paymentAmount {
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--text-color);
+            margin: 5px 0 20px 0;
+        }
+        #qrcode {
+            padding: 10px;
+            background-color: white;
+            border: 1px solid var(--light-gray);
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .modal-footer {
+            font-size: 0.9em;
+            color: var(--dark-gray);
+        }
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5em;
+            color: var(--dark-gray);
+            cursor: pointer;
+            line-height: 1;
+        }
+    </style>
 </head>
 <body>
-    <div class="payment-card" id="interactive-card">
-        <div class="card-content">
-            <div class="merchant-logo" id="merchantInitial">P</div>
-            <h1 id="merchantName">Pansa Store</h1>
-            <p>Masukkan jumlah pembayaran Anda</p>
 
-            <div class="input-wrapper">
-                <span>Rp</span>
-                <input type="text" id="nominalInput" inputmode="numeric" placeholder="0">
-            </div>
+    <div class="payment-card">
+        <div class="merchant-logo" id="merchantInitial"></div>
+        <h1 id="merchantName"></h1>
+        <p>Masukkan jumlah pembayaran</p>
 
-            <div class="quick-amounts">
-                <button data-amount="10000">10rb</button>
-                <button data-amount="25000">25rb</button>
-                <button data-amount="50000">50rb</button>
-                <button data-amount="100000">100rb</button>
-            </div>
-            <button id="bayarBtn" disabled>Bayar</button>
+        <div class="input-wrapper">
+            <span>Rp</span>
+            <input type="text" id="nominalInput" inputmode="numeric" placeholder="0">
         </div>
+
+        <div class="quick-amounts">
+            <button data-amount="10000">10rb</button>
+            <button data-amount="25000">25rb</button>
+            <button data-amount="50000">50rb</button>
+            <button data-amount="100000">100rb</button>
+        </div>
+        <button id="bayarBtn" disabled>Bayar</button>
     </div>
 
     <div class="modal-overlay" id="modalOverlay">
@@ -34,111 +241,119 @@
             <p>Total Pembayaran</p>
             <h2 id="paymentAmount"></h2>
             <div id="qrcode"></div>
+            <div class="modal-footer">
+                <p>Scan QR dengan aplikasi E-Wallet Anda.</p>
+            </div>
         </div>
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    
     <script>
-      // --- BAGIAN 1: LOGIKA APLIKASI UTAMA (DARI SCRIPT.JS) ---
+        // --- KONFIGURASI PAYLOAD (berdasarkan payload baru Anda) ---
+        // Payload QRIS statis (tanpa tag nominal '54')
+        const staticPayload = "00020101021126610014COM.GO-JEK.WWW01189360091438098430560210G8098430560303UMI51440014ID.CO.QRIS.WWW0215ID10254038798730303UMI5204549953033605802ID5911Pansa Store6010BOJONEGORO61056211162070703A01630432C7";
 
-      // --- Referensi Elemen HTML ---
-      const nominalInput = document.getElementById('nominalInput');
-      const bayarBtn = document.getElementById('bayarBtn');
-      const quickAmountButtons = document.querySelectorAll('.quick-amounts button');
-      const merchantNameEl = document.getElementById('merchantName');
-      const merchantInitialEl = document.getElementById('merchantInitial');
-      const modalOverlay = document.getElementById('modalOverlay');
-      const closeBtn = document.getElementById('closeBtn');
-      const qrcodeContainer = document.getElementById('qrcode');
-      const paymentAmountEl = document.getElementById('paymentAmount');
+        // --- Referensi Elemen HTML ---
+        const nominalInput = document.getElementById('nominalInput');
+        const bayarBtn = document.getElementById('bayarBtn');
+        const quickAmountButtons = document.querySelectorAll('.quick-amounts button');
+        const merchantNameEl = document.getElementById('merchantName');
+        const merchantInitialEl = document.getElementById('merchantInitial');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const closeBtn = document.getElementById('closeBtn');
+        const qrcodeContainer = document.getElementById('qrcode');
+        const paymentAmountEl = document.getElementById('paymentAmount');
 
-      // --- DATA PAYLOAD (FRONTEND-ONLY) ---
-      const PAYLOAD_PART_1 = "00020101021126610014COM.GO-JEK.WWW01189360091438098430560210G8098430560303UMI51440014ID.CO.QRIS.WWW0215ID10254038798730303UMI520454995303360";
-      const PAYLOAD_PART_2 = "5802ID5911Pansa Store6010BOJONEGORO61056211162070703A01";
-      const MERCHANT_NAME = "Pansa Store";
+        // --- Fungsi Helper ---
+        const formatRupiah = (angka) => {
+            return new Intl.NumberFormat('id-ID').format(angka);
+        };
 
-      // --- Fungsi Helper ---
-      const formatRupiah = (angka) => new Intl.NumberFormat('id-ID').format(angka);
-      const unformatRupiah = (rupiahStr) => parseInt(String(rupiahStr).replace(/\./g, ''), 10) || 0;
+        const unformatRupiah = (rupiahStr) => {
+            return parseInt(rupiahStr.replace(/\./g, ''), 10) || 0;
+        };
 
-      // --- FUNGSI CRC16 UNTUK VALIDASI QRIS ---
-      function crc16_ccitt(data) {
-          let crc = 0xFFFF;
-          for (let i = 0; i < data.length; i++) {
-              crc ^= data.charCodeAt(i) << 8;
-              for (let j = 0; j < 8; j++) {
-                  crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : crc << 1;
-              }
-          }
-          return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
-      }
+        const crc16_ccitt = (data) => {
+            let crc = 0xFFFF;
+            for (let i = 0; i < data.length; i++) {
+                crc ^= data.charCodeAt(i) << 8;
+                for (let j = 0; j < 8; j++) {
+                    crc = (crc & 0x8000) ? (crc << 1) ^ 0x1021 : crc << 1;
+                }
+            }
+            return (crc & 0xFFFF).toString(16).toUpperCase().padStart(4, '0');
+        };
 
-      // --- FUNGSI UTAMA UNTUK MEMBUAT QRIS ---
-      function generateLocalQRIS() {
-          const nominal = unformatRupiah(nominalInput.value);
-          if (nominal <= 0) {
-              alert("Silakan masukkan nominal yang valid.");
-              return;
-          }
+        const getMerchantName = (payload) => {
+            const tag59Index = payload.indexOf("59");
+            if (tag59Index === -1) return "Merchant";
+            const length = parseInt(payload.substring(tag59Index + 2, tag59Index + 4));
+            return payload.substring(tag59Index + 4, tag59Index + 4 + length);
+        };
+        
+        // --- Logika Utama ---
+        function handleInputChange(event) {
+            const rawValue = unformatRupiah(event.target.value);
+            nominalInput.value = formatRupiah(rawValue);
+            bayarBtn.disabled = rawValue <= 0;
+        }
+        
+        function setNominal(amount) {
+            nominalInput.value = formatRupiah(amount);
+            // Memicu event 'input' secara manual agar tombol bayar ter-update
+            nominalInput.dispatchEvent(new Event('input'));
+        }
 
-          const amountLength = String(nominal).length.toString().padStart(2, '0');
-          const amountTag = `54${amountLength}${nominal}`;
-          const payloadForCrc = PAYLOAD_PART_1 + amountTag + PAYLOAD_PART_2 + "6304";
-          const crcValue = crc16_ccitt(payloadForCrc);
-          const finalPayload = payloadForCrc + crcValue;
+        function generateDynamicQRIS() {
+            const nominal = unformatRupiah(nominalInput.value);
+            if (nominal <= 0) return;
 
-          qrcodeContainer.innerHTML = "";
-          new QRCode(qrcodeContainer, {
-              text: finalPayload,
-              width: 256,
-              height: 256
-          });
-          
-          paymentAmountEl.textContent = `Rp ${formatRupiah(nominal)}`;
-          modalOverlay.classList.add('show');
-      }
+            // Memecah payload statis untuk menyisipkan tag nominal
+            const tag53Index = staticPayload.indexOf("5303360");
+            const payloadPart1 = staticPayload.substring(0, tag53Index + 7);
+            const tag58Index = staticPayload.indexOf("5802ID");
+            const payloadPart2 = staticPayload.substring(tag58Index, staticPayload.indexOf("6304"));
+            
+            const amountLength = String(nominal).length.toString().padStart(2, '0');
+            const amountTag = `54${amountLength}${nominal}`;
 
-      function handleInputChange(event) {
-          const rawValue = unformatRupiah(event.target.value);
-          const formattedValue = rawValue > 0 ? formatRupiah(rawValue) : '';
-          if (nominalInput.value !== formattedValue) {
-              nominalInput.value = formattedValue;
-          }
-          bayarBtn.disabled = rawValue <= 0;
-      }
+            const payloadForCrc = payloadPart1 + amountTag + payloadPart2 + "6304";
+            const crcValue = crc16_ccitt(payloadForCrc);
+            const finalPayload = payloadForCrc + crcValue;
+            
+            qrcodeContainer.innerHTML = "";
+            new QRCode(qrcodeContainer, {
+                text: finalPayload,
+                width: 256,
+                height: 256,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.M
+            });
+            
+            paymentAmountEl.textContent = `Rp ${formatRupiah(nominal)}`;
+            modalOverlay.classList.add('show');
+        }
+        
+        // --- Inisialisasi & Event Listeners ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const merchantName = getMerchantName(staticPayload);
+            merchantNameEl.textContent = merchantName;
+            merchantInitialEl.textContent = merchantName.charAt(0);
+        });
 
-      function setNominal(amount) {
-          nominalInput.value = formatRupiah(amount);
-          nominalInput.dispatchEvent(new Event('input'));
-      }
+        nominalInput.addEventListener('input', handleInputChange);
+        quickAmountButtons.forEach(button => {
+            button.addEventListener('click', () => setNominal(button.dataset.amount));
+        });
 
-      // --- Inisialisasi & Event Listeners ---
-      document.addEventListener('DOMContentLoaded', () => {
-          merchantNameEl.textContent = MERCHANT_NAME;
-          merchantInitialEl.textContent = MERCHANT_NAME.charAt(0);
-      });
-
-      nominalInput.addEventListener('input', handleInputChange);
-      quickAmountButtons.forEach(button => {
-          button.addEventListener('click', () => setNominal(button.dataset.amount));
-      });
-
-      bayarBtn.addEventListener('click', generateLocalQRIS);
-      closeBtn.addEventListener('click', () => modalOverlay.classList.remove('show'));
-      modalOverlay.addEventListener('click', (event) => {
-          if (event.target === modalOverlay) modalOverlay.classList.remove('show');
-      });
-
-      // --- BAGIAN 2: SCRIPT UNTUK EFEK GLOW MENGIKUTI MOUSE ---
-      const card = document.getElementById('interactive-card');
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
-      });
+        bayarBtn.addEventListener('click', generateDynamicQRIS);
+        closeBtn.addEventListener('click', () => modalOverlay.classList.remove('show'));
+        modalOverlay.addEventListener('click', (event) => {
+            if (event.target === modalOverlay) {
+                modalOverlay.classList.remove('show');
+            }
+        });
     </script>
 </body>
 </html>
