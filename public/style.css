@@ -1,0 +1,189 @@
+/* --- 1. Pengaturan Dasar & Variabel Global --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+  --primary-glow: hsl(217, 100%, 60%);
+  --primary-color: hsl(217, 89%, 61%);
+  --card-bg: hsl(220, 26%, 14%);
+  --input-bg: hsl(220, 26%, 18%);
+  --text-color: hsl(0, 0%, 95%);
+  --text-muted: hsl(0, 0%, 70%);
+  --shadow-color: hsl(217, 100%, 10%);
+  --border-radius: 1rem;
+  --transition-speed: 0.3s;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: hsl(220, 26%, 10%);
+  color: var(--text-color);
+  min-height: 100vh;
+  display: grid;
+  place-content: center;
+  padding: 2rem;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 2. Styling Kartu Pembayaran Utama --- */
+.payment-card {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  overflow: hidden;
+  border: 1px solid hsl(220, 26%, 20%);
+}
+
+.card-content { position: relative; z-index: 1; text-align: center; }
+
+/* --- 3. Efek "Glow Border" Interaktif --- */
+.payment-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(
+    800px circle at var(--mouse-x) var(--mouse-y),
+    hsla(217, 100%, 61%, 0.15),
+    transparent 40%
+  );
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.payment-card:hover::before { opacity: 1; }
+.payment-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 40px var(--shadow-color);
+}
+
+/* --- 4. Konten di Dalam Kartu --- */
+.merchant-logo {
+  width: 60px; height: 60px;
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-glow));
+  border-radius: 50%;
+  margin: 0 auto 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 0 20px hsla(217, 100%, 61%, 0.5);
+}
+
+#merchantName {
+  font-size: clamp(1.5rem, 5vw, 1.75rem);
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.payment-card p { color: var(--text-muted); margin-bottom: 2rem; }
+
+.input-wrapper { position: relative; margin-bottom: 1.25rem; }
+.input-wrapper span {
+  position: absolute;
+  left: 20px; top: 50%;
+  transform: translateY(-50%);
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  font-weight: 600;
+  color: var(--text-muted);
+}
+#nominalInput {
+  width: 100%;
+  padding: 1.25rem 1.25rem 1.25rem 5rem;
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  font-weight: 600;
+  border: 1px solid hsl(220, 26%, 25%);
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border-radius: 12px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  -moz-appearance: textfield;
+}
+#nominalInput:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px hsla(217, 100%, 61%, 0.3);
+}
+
+.quick-amounts { display: flex; gap: 10px; margin-bottom: 2rem; }
+.quick-amounts button {
+  flex-grow: 1; padding: 0.75rem;
+  font-size: 0.9em; font-weight: 600;
+  background-color: transparent;
+  color: var(--text-muted);
+  border: 1px solid hsl(220, 26%, 30%);
+  border-radius: 8px; cursor: pointer;
+  transition: all var(--transition-speed) ease;
+}
+.quick-amounts button:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+#bayarBtn {
+  width: 100%; padding: 1rem;
+  font-size: 1.1em; font-weight: 600; color: white;
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-glow));
+  border: none; border-radius: 12px; cursor: pointer;
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  box-shadow: 0 5px 20px hsla(217, 100%, 61%, 0.4);
+}
+#bayarBtn:disabled {
+  background: var(--input-bg);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+#bayarBtn:not(:disabled):hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px hsla(217, 100%, 61%, 0.6);
+}
+#bayarBtn:active:not(:disabled) { transform: scale(0.98); }
+
+/* --- 5. Modal Styling --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex; justify-content: center; align-items: center;
+  z-index: 1000;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+.modal-overlay.show { opacity: 1; visibility: visible; }
+.modal-content {
+  background: var(--card-bg);
+  padding: 2rem; border-radius: var(--border-radius); text-align: center;
+  border: 1px solid hsl(220, 26%, 20%);
+  transform: scale(0.95);
+  transition: transform 0.3s;
+}
+.modal-overlay.show .modal-content { transform: scale(1); }
+#paymentAmount {
+  font-size: 2em; font-weight: 700; color: var(--text-color);
+  margin: 0.5rem 0 1.5rem 0;
+}
+#qrcode {
+  padding: 10px; background-color: white; border-radius: 12px;
+  margin-bottom: 1.5rem; display: inline-block;
+}
+.close-btn {
+  position: absolute; top: 15px; right: 15px;
+  font-size: 1.5em; color: var(--text-muted); cursor: pointer;
+}
