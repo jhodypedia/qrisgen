@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembayaran QRIS - Pansa Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="payment-card">
+        <div class="merchant-logo" id="merchantInitial">P</div>
+        <h1 id="merchantName">Pansa Store</h1>
+        <p>Masukkan jumlah pembayaran</p>
+
+        <div class="input-wrapper">
+            <span>Rp</span>
+            <input type="text" id="nominalInput" inputmode="numeric" placeholder="0">
+        </div>
+
+        <div class="quick-amounts">
+            <button data-amount="10000">10rb</button>
+            <button data-amount="25000">25rb</button>
+            <button data-amount="50000">50rb</button>
+            <button data-amount="100000">100rb</button>
+        </div>
+        <button id="bayarBtn" disabled>Bayar</button>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <span class="close-btn" id="closeBtn">&times;</span>
+            <p>Total Pembayaran</p>
+            <h2 id="paymentAmount"></h2>
+            <div id="qrcode"></div>
+            <div class="modal-footer">
+                <p>Scan QR dengan aplikasi E-Wallet Anda.</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
